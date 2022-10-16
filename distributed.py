@@ -11,9 +11,10 @@ WORLD_RANK = int(os.environ['RANK'])
 
 def run(backend):
     tensor = torch.zeros(1)
-
-    if backend == 'gloo':
-        device = torch.device("cpu:{}".format(LOCAL_RANK))
+    
+    # Need to put tensor on a GPU device for nccl backend
+    if backend == 'nccl':
+        device = torch.device("cuda:{}".format(LOCAL_RANK))
         tensor = tensor.to(device)
 
     if WORLD_RANK == 0:
@@ -32,7 +33,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--local_rank", type=int, help="Local rank. Necessary for using the torch.distributed.launch utility.")
-    parser.add_argument("--backend", type=str, default="gloo", choices=['nccl', 'gloo'])
+    parser.add_argument("--backend", type=str, default="nccl", choices=['nccl', 'gloo'])
     args = parser.parse_args()
 
     init_processes(backend=args.backend)
