@@ -59,7 +59,7 @@ def partition_dataset():
         ]))
     size = dist.get_world_size()
     # Divide the batchsize among all processes so that for each iteration the batch size is 128.
-    batchsize = 128 / float(size)
+    batchsize = int(128 / float(size))
     # Slice the dataset into the number of processes.
     partition_sizes = [1.0 / size for _ in range(size)]
     partition = DataPartitioner(dataset, partition_sizes)
