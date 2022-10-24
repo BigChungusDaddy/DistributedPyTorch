@@ -127,7 +127,7 @@ def main():
         print("Local Rank: {}, Epoch: {}, Training ...".format(local_rank, epoch))
         
         # Save and evaluate model routinely
-        if epoch % 10 == 0:
+        if epoch % 2 == 0:
             accuracy = evaluate(model=ddp_model, device=device, test_loader=test_loader)
             print("-" * 75)
             print("Epoch: {}, Accuracy: {}".format(epoch, accuracy))
