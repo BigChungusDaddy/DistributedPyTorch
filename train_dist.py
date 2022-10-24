@@ -87,14 +87,14 @@ def main():
     # Encapsulate the model on the GPU assigned to the current process
     model = torchvision.models.resnet18(pretrained=False)
 
-    device = torch.device("cpu:{}".format(local_rank))
+    device = torch.device("cpu")
     model = model.to(device)
     ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank], output_device=local_rank)
 
     # We only save the model who uses device "cpu:0"
     # To resume, the device for the saved model would also be "cpu:0"
     if resume == True:
-        map_location = {"cpu:0": "cpu:{}".format(local_rank)}
+        map_location = {"cpu": "cpu"}
         ddp_model.load_state_dict(torch.load(model_filepath, map_location=map_location))
 
     # Prepare dataset and dataloader
