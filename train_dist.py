@@ -39,6 +39,7 @@ def evaluate(model, device, test_loader):
     return accuracy
 
 def main():
+    os.environ
 
     num_epochs_default = 10
     batch_size_default = 256 # 1024
@@ -89,7 +90,7 @@ def main():
 
     device = torch.device("cpu")
     model = model.to(device)
-    ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank], output_device=local_rank)
+    ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=None, output_device=None)
 
     # We only save the model who uses device "cpu:0"
     # To resume, the device for the saved model would also be "cpu:0"
