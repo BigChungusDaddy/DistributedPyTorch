@@ -89,8 +89,9 @@ def main():
     model = torchvision.models.resnet18(pretrained=False)
 
     device = torch.device("cpu")
+    print(device)
     model = model.to(device)
-    ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank], output_device=local_rank)
+    ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=device, output_device=None)
 
     # We only save the model who uses device "cpu:0"
     # To resume, the device for the saved model would also be "cpu:0"
