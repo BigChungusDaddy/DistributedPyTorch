@@ -82,15 +82,15 @@ def main():
     set_random_seeds(random_seed=random_seed)
 
     # Initializes the distributed backend which will take care of sychronizing nodes/GPUs
-    torch.distributed.init_process_group(backend="nccl")
-    # torch.distributed.init_process_group(backend="gloo")
+    # torch.distributed.init_process_group(backend="nccl")
+    torch.distributed.init_process_group(backend="gloo")
 
     # Encapsulate the model on the GPU assigned to the current process
     model = torchvision.models.resnet18(pretrained=False)
 
     device = torch.device("cpu")
     model = model.to(device)
-    ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=None, output_device=None)
+    ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank], output_device=local_rank)
 
     # We only save the model who uses device "cpu:0"
     # To resume, the device for the saved model would also be "cpu:0"
