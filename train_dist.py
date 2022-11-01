@@ -132,6 +132,9 @@ def main():
             print("-" * 75)
             print("Epoch: {}, Accuracy: {}".format(epoch, accuracy))
             print("-" * 75)
+            
+        if epoch % 10 == 0:
+            torch.save(ddp_model.state_dict(), model_filepath)
 
         ddp_model.train()
 
