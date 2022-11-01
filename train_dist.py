@@ -91,7 +91,7 @@ def main():
     device = torch.device("cpu")
     print(device)
     model = model.to(device)
-    ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=None)
+    ddp_model = torch.nn.parallel.DistributedDataParallel(model, device_ids=None, output_device=None)
 
     # We only save the model who uses device "cpu:0"
     # To resume, the device for the saved model would also be "cpu:0"
