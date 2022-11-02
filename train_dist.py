@@ -88,7 +88,7 @@ def main():
     # Encapsulate the model on the GPU assigned to the current process
     model = torchvision.models.resnet18(pretrained=False)
 
-    # device = torch.device("cpu")
+    device = torch.device("cpu")
     # print(device)
     # model = model.to(device)
     ddp_model = torch.nn.parallel.DistributedDataParallel(model)
